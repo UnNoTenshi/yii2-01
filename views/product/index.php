@@ -29,7 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
         "attribute" => "name",
         "format" => "html",
         "value" => function ($data) {
-          return Html::a(Html::tag("strong", $data->name), "/product/view?id=" . $data->id);
+          return Html::a(
+            Html::tag(
+              "strong", Html::encode($data->name)
+            ), ["/product/view", "id" => $data->id]
+          );
         }
       ],
       [
