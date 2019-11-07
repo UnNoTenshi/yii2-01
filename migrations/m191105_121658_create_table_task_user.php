@@ -12,21 +12,6 @@ class m191105_121658_create_table_task_user extends Migration
    */
   public function safeUp()
   {
-
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function safeDown()
-  {
-    echo "m191105_121658_create_table_task_user cannot be reverted.\n";
-
-    return false;
-  }
-
-  public function up()
-  {
     $this->createTable("task_user", [
       "id" => $this->primaryKey(),
       "task_id" => $this->integer()->notNull(),
@@ -34,8 +19,21 @@ class m191105_121658_create_table_task_user extends Migration
     ]);
   }
 
-  public function down()
+  /**
+   * {@inheritdoc}
+   */
+  public function safeDown()
   {
     $this->dropTable("task_user");
   }
+
+  /*public function up()
+  {
+
+  }
+
+  public function down()
+  {
+
+  }*/
 }

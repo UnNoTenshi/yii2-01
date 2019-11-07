@@ -12,21 +12,6 @@ class m191105_115525_create_table_user extends Migration
    */
   public function safeUp()
   {
-
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function safeDown()
-  {
-    echo "m191105_115525_create_table_user cannot be reverted.\n";
-
-    return false;
-  }
-
-  public function up()
-  {
     $this->createTable("user", [
       "id" => $this->primaryKey(),
       "username" => $this->string(255)->notNull(),
@@ -41,8 +26,21 @@ class m191105_115525_create_table_user extends Migration
     ]);
   }
 
-  public function down()
+  /**
+   * {@inheritdoc}
+   */
+  public function safeDown()
   {
     $this->dropTable("user");
   }
+
+  /*public function up()
+  {
+
+  }
+
+  public function down()
+  {
+
+  }*/
 }

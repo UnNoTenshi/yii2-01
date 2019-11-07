@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "task".
@@ -26,6 +27,13 @@ class Task extends \yii\db\ActiveRecord
   const RELATION_TASK_USERS = "taskUsers";
   const RELATION_ACCESSED_USERS = "accessedUsers";
 
+  public function behaviors()
+  {
+    return [
+      TimestampBehavior::class
+    ];
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -40,7 +48,7 @@ class Task extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-      [['title', 'creator_id', 'created_at'], 'required'],
+      [['title', 'creator_id'], 'required'],
       [['description'], 'string'],
       [['creator_id', 'updater_id', 'created_at', 'updated_at'], 'integer'],
       [['title'], 'string', 'max' => 255],
