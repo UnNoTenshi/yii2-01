@@ -31,4 +31,8 @@ class TaskQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+    public function byCreator($userId) {
+      return $this->andWhere("[[creator_id]] = " . $userId);
+    }
 }

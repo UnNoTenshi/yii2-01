@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
 
@@ -39,6 +40,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
   {
     return [
       TimestampBehavior::class,
+      [
+        "class" => BlameableBehavior::class,
+        "createdByAttribute" => "creator_id",
+        "updatedByAttribute" => "updater_id"
+      ]
     ];
   }
 
@@ -73,6 +79,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
   public function rules()
   {
     return [
+      [["password"], "required"],
       [['creator_id', 'updater_id', 'created_at', 'updated_at'], 'integer'],
       [['username', 'name', 'password'], 'string', 'max' => 255],
     ];
