@@ -63,7 +63,12 @@ class TaskController extends Controller
    */
   public function actionView($id)
   {
+    $dataProvider = new ActiveDataProvider([
+      "query" => Task::findOne($id)->getAccessedUsers()
+    ]);
+
     return $this->render('view', [
+      "dataProvider" => $dataProvider,
       'model' => $this->findModel($id),
     ]);
   }
@@ -98,13 +103,18 @@ class TaskController extends Controller
   {
     $model = $this->findModel($id);
 
-    if ($model->load(Yii::$app->request->post()) && $model->save()) {
-      return $this->redirect(['view', 'id' => $model->id]);
+    if ($model->creator_id === Yii::$app->getUser()->id) {
+      if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        Yii::$app->session->setFlash("success", "Задача \"" . $model->title . "\" успешно обновлена");
+        return $this->redirect(['view', 'id' => $model->id]);
+      }
+
+      return $this->render('update', [
+        'model' => $model,
+      ]);
     }
 
-    return $this->render('update', [
-      'model' => $model,
-    ]);
+    return $this->redirect(["my"]);
   }
 
   /**
@@ -128,6 +138,26 @@ class TaskController extends Controller
     ]);
 
     return $this->render('my', [
+      'dataProvider' => $dataProvider,
+    ]);
+  }
+
+  public function actionShared() {
+    $dataProvider = new ActiveDataProvider([
+      'query' => Task::find()->innerJoinWith(Task::RELATION_ACCESSED_USERS)->byCreator(Yii::$app->getUser()->id),
+    ]);
+
+    return $this->render('shared', [
+      'dataProvider' => $dataProvider,
+    ]);
+  }
+
+  public function actionAccessed() {
+    $dataProvider = new ActiveDataProvider([
+      'query' => Task::find()->innerJoinWith(Task::RELATION_ACCESSED_USERS)->where(["user.id" => Yii::$app->getUser()->id])
+    ]);
+
+    return $this->render('accessed', [
       'dataProvider' => $dataProvider,
     ]);
   }

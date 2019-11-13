@@ -52,10 +52,6 @@ $config = [
       ],
     ],
 
-    "test" => [
-      "class" => \app\components\TestService::class,
-    ]
-
   ],
   'params' => $params,
 ];

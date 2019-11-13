@@ -2,6 +2,8 @@
 
 namespace app\models\queries;
 
+use app\models\Task;
+
 /**
  * This is the ActiveQuery class for [[\app\models\Task]].
  *
@@ -33,6 +35,6 @@ class TaskQuery extends \yii\db\ActiveQuery
     }
 
     public function byCreator($userId) {
-      return $this->andWhere("[[creator_id]] = " . $userId);
+      return $this->andWhere("[[task.creator_id]] = " . $userId);
     }
 }

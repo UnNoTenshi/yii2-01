@@ -41,7 +41,11 @@ AppAsset::register($this);
     'items' => [
       ['label' => 'Home', 'url' => ['/site/index']],
       !(Yii::$app->user->isGuest) ? (
-      ["label" => "My tasks", "url" => "/task/my"]
+      ["label" => "Tasks", "items" => [
+        ["label" => "My Tasks", "url" => "/task/my"],
+        ["label" => "Shared Tasks", "url" => "/task/shared"],
+        ["label" => "Accessed Tasks", "url" => "/task/accessed"]
+      ]]
       ) : (""),
       !(Yii::$app->user->isGuest) ? (
       ["label" => "Create new task", "url" => "/task/create"]
